@@ -1,14 +1,9 @@
-# Build-Api-Server
+# Block 3 Project: API Server
 
-# LAB - 
-
-## Project Name
-
-### Author: Student/Group Name
+### Author: Hanna Alemu
 
 ### Mongo DB URL
-
-mongodb://localhost:27017/
+mongodb+srv://hanna9:estifaman9@cluster0-s90so.mongodb.net/test?retryWrites=true&w=majority
 
 ### Common npm Scripts
  "lint": "eslint \"**/*.js\"",  
@@ -18,47 +13,29 @@ mongodb://localhost:27017/
    "jsdoc": "jsdoc -c ./docs/config/jsdoc.config.json",  
    "startDB": "mkdir -p ./.db && mongod --dbpath ./.db"
 
-### For JS DOCS
-[Leyla's Guide to JSDocs](https://docs.google.com/document/d/1ifvEDvWpdaCO3AtY6P2KBdDvHaG2GkWpfTFIHBx8BoE/edit?usp=sharing)
-* for your server file: app.use('/docs', express.static('./docs'));
-
 ### Links and Resources
 * [submission PR](http://xyz.com)
 * [travis](http://xyz.com)
 * [back-end](http://xyz.com) (when applicable)
-* [front-end](http://xyz.com) (when applicable)
+
 
 #### Documentation
 * [api docs](http://xyz.com) (API servers)
-* [jsdoc](http://xyz.com) (Server assignments)
-* [styleguide](http://xyz.com) (React assignments)
-
-### Modules
-#### `modulename.js`
-##### Exported Values and Methods
-
-###### `foo(thing) -> string`
-Usage Notes or examples
-
-###### `bar(array) -> array`
-Usage Notes or examples
+* [jsdoc]() ()
 
 ### Setup
 #### `.env` requirements
-* `PORT` - Port Number
-* `MONGODB_URI` - URL to the running mongo instance/db
+* `PORT` - 3000
+* `Secret` - Secret used to create token
 
 #### Running the app
 * `npm start`
-* Endpoint: `/foo/bar/`
-  * Returns a JSON object with abc in it.
-* Endpoint: `/bing/zing/`
-  * Returns a JSON object with xyz in it.
-  
+* Endpoints: 
+/api/v1/categories  : Returns a Json object with all categories in database
+/api/v1/categories:id: Returns a Json object with the category with the corresponding id
+/api/v1/products: Returns a Json object with all products in database
+/api/v1/products:id :  Returns a Json object with the product with the corresponding id
+/signup : let's a user sign up with a username and password
+/signin : Let's the user signin with a username and password OR token
 #### Tests
-* How do you run tests?
-* What assertions were made?
-* What assertions need to be / should be made?
-
-#### UML
-Link to an image of the UML for your application and response to events
+** `npm run test`

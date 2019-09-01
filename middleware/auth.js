@@ -1,7 +1,7 @@
 'use strict';
 
 //Hanna - import user model
-const User  = require('../src/model/user');
+const User  = require('../src/models/user');
 
 module.exports = (req, res, next) => {
   try {

@@ -1,39 +1,39 @@
 {
-  "name": "auth-server",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "startDB": "mkdir -p ./db && mongod --dbpath ./db",
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "watch": "nodemon index.js",
+    "test-watch": "jest --watchAll",
+    "test": "jest",
+    "jsdoc": "jsdoc -c ./docs/config/jsdoc.config.json"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^3.0.6",
-    "cf-supergoose": "^1.0.2",
-    "cors": "^2.8.5",
-    "dotenv": "^8.1.0",
-    "express": "^4.17.1",
-    "jest": "^24.9.0",
-    "jsonwebtoken": "^8.5.1",
+    "bcrypt": "^3.0.2",
+    "cors": "^2.8.4",
+    "debug": "^4.1.0",
+    "dependencies": "0.0.1",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.3",
+    "jsdoc": "^3.6.3",
+    "jsonwebtoken": "^8.4.0",
+    "mongodb-memory-server": "^5.1.4",
     "mongoose": "^5.6.11",
-    "morgan": "^1.9.1",
-    "superagent": "^5.1.0"
+    "mongoose-schema-jsonschema": "^1.1.15",
+    "morgan": "^1.9.0",
+    "require-directory": "^2.1.1",
+    "supertest": "^3.3.0",
+    "swagger-ui-express": "^4.0.2"
   },
-  "directories": {
-    "doc": "docs",
-    "lib": "lib"
-  },
-  "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/401-advanced-javascript-hanna-alemu/Build-Api-Server.git"
-  },
-  "bugs": {
-    "url": "https://github.com/401-advanced-javascript-hanna-alemu/Build-Api-Server/issues"
-  },
-  "homepage": "https://github.com/401-advanced-javascript-hanna-alemu/Build-Api-Server#readme"
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
 }

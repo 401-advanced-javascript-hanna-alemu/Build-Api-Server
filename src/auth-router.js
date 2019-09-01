@@ -2,14 +2,14 @@
 
 
 const express = require('express');
-const apiRouter = express.Router();
+const authRouter = express.Router();
 
-const User = require('./model/user');
+const User = require('./models/user');
 const auth = require('../middleware/auth');
 
 //Hanna ------------------------signup route --------------
 
-apiRouter.post('/signup', (req, res, next) => {
+authRouter.post('/signup', (req, res, next) => {
   //Hanna ---- Create new user from request entered using user model
   const user = new User(req.body);
 
@@ -30,11 +30,12 @@ apiRouter.post('/signup', (req, res, next) => {
 
 //Hanna -------------------------signin route ----------------
 
-apiRouter.post('/signin', (req, res, next) => {
+authRouter.post('/signin', (req, res, next) => {
 
   res.cookie('auth', req.token);
   res.send(req.token);
+  
 
 });
 
-module.exports = apiRouter;
+module.exports = authRouter;

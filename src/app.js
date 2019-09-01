@@ -7,27 +7,38 @@ const morgan = require('morgan');
 const notFound = require('../middleware/404');
 const errorHandler = require('../middleware/500');
 
-const routes = require('./router.js');
+// const categoriesModel = require('../src/models/categories/categories-schema');
+// const productsModel = require('../src/models/products/products-schema');
+
+
+const apiRouter = require('./api-router');
+const authRouter = require('./auth-router');
 
 const app = express();
-
+// App Level MW
 app.use(cors());
 app.use(morgan('dev'));
 
+// app.use(categoriesModel);
+// app.use(productsModel);
+
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended:true}));
 
-app.use(routes);
+// Routes
+app.use(apiRouter);
+app.use(authRouter);
 
+app.use('/docs', express.static('docs'));
+// Catchalls
 app.use(notFound);
 app.use(errorHandler);
 
-app.set('port', process.env.PORT || 3000);
 module.exports = {
+  server: app,
   start: (port) => {
     app.listen(port, () => {
-      console.log(`Hi Hanna, App is listening on ${port}`);
+      console.log(`Server Up on ${port}`);
     });
   },
-  server: app,
 };
