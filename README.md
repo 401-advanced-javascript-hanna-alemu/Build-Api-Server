@@ -14,14 +14,14 @@ mongodb+srv://hanna9:estifaman9@cluster0-s90so.mongodb.net/test?retryWrites=true
    "startDB": "mkdir -p ./.db && mongod --dbpath ./.db"
 
 ### Links and Resources
-* [submission PR](http://xyz.com)
-* [travis](http://xyz.com)
-* [back-end](http://xyz.com) (when applicable)
+* [submission PR](https://github.com/401-advanced-javascript-hanna-alemu/Build-Api-Server/pull/1)
+* [travis](https://www.travis-ci.com/401-advanced-javascript-hanna-alemu/Build-Api-Server)
+* [back-end](https://build-api-server.herokuapp.com)
 
 
 #### Documentation
-* [api docs](http://xyz.com) (API servers)
-* [jsdoc]() ()
+* [api docs]()
+* [jsdoc](https://build-api-server.herokuapp.com/docs) ()
 
 ### Setup
 #### `.env` requirements
