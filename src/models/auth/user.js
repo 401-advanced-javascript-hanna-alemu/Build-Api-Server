@@ -5,17 +5,20 @@ const bcrypt = require('bcrypt');
 const jwt  = require('jsonwebtoken');
 
 //Hanna - create user mongoose schema
-const userSchema = mongoose.Schema({
+const userSchema =new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
   email: { type: String },
 });
  
 //Hanna- Hash the password before you save it, Salt rounds = 10
-userSchema.pre('save', async function () {
-  if(this.isModified( 'password' )) {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
+userSchema.pre('save', function (next) {
+  bcrypt.hash(this.password, 10)
+    .then( hashedPassword => {
+      this.password = hashedPassword;
+      next();
+    })
+    .catch(console.error);
 });
 
 //Hanna ---------------------------Basic user authentication -------------
@@ -24,7 +27,10 @@ userSchema.statics.authenticateBasic = function(auth) {
   let query = { username: auth.username };
   return this.findOne(query)
     .then(user => {
-      return user.comparePassword(auth.password);
+      if(user && user.comparePassword( auth.password)) {
+        return user;
+      }
+      else console.log('invalid credentials');
     })
     .catch(error => {
       throw error;
@@ -35,18 +41,19 @@ userSchema.statics.authenticateBasic = function(auth) {
 
 userSchema.methods.comparePassword = function (password) {
   return bcrypt.compare(password, this.password)
-    .then(isValid => isValid? this: null);
+    .then(isValid => isValid? this: null)
+    .catch(error => console.log('password does not match', error));
 };
 
 //Hanna ---------------------------------Bearer Authentication----------
 
 userSchema.statics.authenticateToken = function(token) {
-  try {
-    let decryptedToken = jwt.verify(token, process.env.SECRET);
-    return this.findOne({_id: decryptedToken.id });
-  } catch(e) {
-    throw new Error('Invalid Token');
-  }
+  let decryptedToken = jwt.verify(token, process.env.SECRET);
+  return this.findOne({_id: decryptedToken.id })
+    .then(user => {
+      return user ? user : null;
+    })
+    .catch( error => console.log('invalid token', error));
 };
 
 

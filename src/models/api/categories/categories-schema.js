@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 
-const categories = mongoose.Schema({
+const categories = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -11,9 +11,6 @@ const categories = mongoose.Schema({
     type: String,
     required: true,
   },
-  rating: {
-    type: Number,
-  },
 });
 
-module.exports = mongoose.model('categories-schema', categories);
+module.exports = mongoose.model('categories', categories);

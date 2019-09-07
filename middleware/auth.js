@@ -1,46 +1,60 @@
 'use strict';
 
 //Hanna - import user model
-const User  = require('../src/models/user');
+const User  = require('../src/models/auth/user');
 
-module.exports = (req, res, next) => {
+module.exports = {};
+
+module.exports.modelLoader = (request, response, next) => {
+  let model = request.params.model;
+  let schema = require(`../src/models/api/${model}/${model}-schema.js`);
+  let Model = require('../src/models/crudmodel');
+  request.model = new Model( schema );
+  next();
+};
+
+module.exports.authenticate = ( request, response, next ) => {
+
   try {
-    //Hanna - auth = req.header.authorization
-    let [authType, authString] = req.headers.authorization.split(/\s+/);
-
-    switch (authType.toLowerCase()) {
-    case 'basic':
-      //Hanna -check users credentials
-      let base64Buffer = Buffer.from(authString, 'base64');
-      //Hanna - now we have a binary string
-      let BufferString = base64Buffer.toString();
-      //Hanna - now we have username and password
-
-      let[username, password] = BufferString.split(':');
-      return User.authenticateBasic({ username, password })
-        .then(user => {
-          req.user = user;
-          req.token = user.generateToken();
-          next();
-        })
-        .catch(() => next('Invalid username or password'));
-
-    case 'bearer':
-      //Hanna ----- Check if token is valid
-      return User.authenticateToken(authString)
-        .then( user => {
-          req.user = user;
-          req.token = user.generateToken();
-          next();
-        })
-        .catch(() => next('Invalid Token'));
-
-    default:
-      next('Unauthorized Access');
-    }
-  }
-  catch(e) {
-    next(e);
+    let path = request.originalUrl.split( '/' )[1];
+    let [ authType, authString ] = request.headers.authorization.split(' ');
+    if ( authType.toLowerCase() === 'basic' && path === 'signin' ) {
+      return basic( authString );
+    } else if ( authType.toLowerCase() === 'bearer' && [ 'products', 'categories' ].includes( request.params.model ) ) {
+      return token( authString );
+    } else response.send( 'Could not authenticate.' );
+  } catch( error ){
+    next( error);
   }
 
+  function basic (basicAuthString) {
+    let credentials = decode( basicAuthString);
+    return User.basicAuth( credentials)
+      .then( user => {
+        if( user ) {
+          request.user = user.username;
+          request.token = user.generateToken();
+          next();
+        }
+      })
+      .catch( error => next(error));
+  }
+
+  function decode (authString ) {
+    let buffer = Buffer.from(authString, 'base64').toString();
+    let [username, password ]= buffer.split(':');
+    return { username, password};
+  }
+
+  function token (tokenAuthString) {
+    return User.authenticateToken( tokenAuthString)
+      .then( user => {
+        if(user ) {
+          next();
+        }
+        else response.send('Bad token ');
+      })
+      .catch(error => next(error));
+  }
+ 
 };

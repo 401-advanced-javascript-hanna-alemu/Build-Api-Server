@@ -11,8 +11,8 @@ const errorHandler = require('../middleware/500');
 // const productsModel = require('../src/models/products/products-schema');
 
 
-const apiRouter = require('./api-router');
-const authRouter = require('./auth-router');
+const apiRouter = require('../src/routes/api-router');
+const authRouter = require('../src/routes/auth-router');
 
 const app = express();
 // App Level MW
@@ -38,7 +38,7 @@ module.exports = {
   server: app,
   start: (port) => {
     app.listen(port, () => {
-      console.log(`Server Up on ${port}`);
+      console.log(`Server is Up on ${port}`);
     });
   },
 };

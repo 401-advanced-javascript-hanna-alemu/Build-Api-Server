@@ -8,7 +8,8 @@
     "watch": "nodemon index.js",
     "test-watch": "jest --watchAll",
     "test": "jest",
-    "jsdoc": "jsdoc -c ./docs/config/jsdoc.config.json"
+    "jsdoc": "jsdoc -c ./docs/config/jsdoc.config.json",
+    "lint": "eslint \"**/*.js\""
   },
   "jest": {
     "testEnvironment": "node"
